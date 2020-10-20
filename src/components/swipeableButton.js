@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 import GestureRecognizer from 'react-native-swipe-gestures';
 import colors from '../constants/colors';
 import Dimension from '../constants/Dimension';
 
 export default FullWidthButton = props => {
-    const [showBtn, setShowBtn] = useState(true);
+    
+   
     const config = {
         velocityThreshold: 0.3,
         directionalOffsetThreshold: 80
