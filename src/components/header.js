@@ -14,7 +14,7 @@ export default Header = props => {
                     style={styles.img}
                 />
                 <Text style={styles.terminalTxt}>
-                    {'Terminal-2'}
+                    {'TERMINAL-2'}
                 </Text>
             </View>
             <View style={styles.countView}>
@@ -29,7 +29,7 @@ export default Header = props => {
 const styles = StyleSheet.create({
     touchable: {
         width: Dimension._width80per,
-        height: 150,
+        height: 120,
         backgroundColor: colors.colorPrimary,
         margin: 20,
         borderRadius: 40,

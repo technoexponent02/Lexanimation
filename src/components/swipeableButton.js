@@ -1,33 +1,46 @@
 import React from 'react';
-import { StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { Animated, StyleSheet, Text } from 'react-native';
 import GestureRecognizer from 'react-native-swipe-gestures';
 import colors from '../constants/colors';
 import Dimension from '../constants/Dimension';
 
-export default FullWidthButton = props => {
-    
-   
+export default SwipeableButton = props => {
     const config = {
         velocityThreshold: 0.3,
         directionalOffsetThreshold: 80
     };
-    const {onSwipe} = props;
+    const { onSwipe, animationVal } = props;
+
     return (
         <GestureRecognizer
             onSwipe={(direction, state) => onSwipe(direction, state)}
             config={config}
         >
-            <TouchableOpacity style={styles.touchable} activeOpacity={1} onPress={props.onClick} >
+
+            <Animated.View style={[styles.touchable, {
+                marginBottom: animationVal.interpolate({
+                    inputRange: [0, 0.1, 1],
+                    outputRange: [-15, 0, 0],
+                }),
+                transform: [
+                    {
+                        scale: animationVal.interpolate({
+                            inputRange: [0, 0.1, 1],
+                            outputRange: [0.9, 1.1, 1.1],
+                        }),
+                    },
+                ],
+            }]}  >
                 <Text style={styles.txt} >{'Swipe to Skip'}</Text>
-            </TouchableOpacity>
+            </Animated.View>
         </GestureRecognizer>
     );
 }
 const styles = StyleSheet.create({
     touchable: {
         width: Dimension._width50per,
-        height:70,
-        backgroundColor:colors.colorPrimary,
+        height: 50,
+        backgroundColor: colors.colorPrimary,
         margin: 0,
         borderRadius: 40,
         paddingVertical: 3,
@@ -43,9 +56,9 @@ const styles = StyleSheet.create({
         },
         shadowOpacity: 0,
     },
-    txt:{
-        color:colors.colorWhite,
-        fontSize:Dimension.largeTxt
+    txt: {
+        color: colors.colorWhite,
+        fontSize: Dimension.largeTxt
     }
 });
 

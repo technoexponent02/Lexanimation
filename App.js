@@ -6,9 +6,10 @@
  * @flow strict-local
  */
 
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import {
-  ImageBackground,
+  Animated, ImageBackground,
+
   StatusBar, StyleSheet, View
 } from 'react-native';
 import { swipeDirections } from 'react-native-swipe-gestures';
@@ -21,30 +22,31 @@ import Dimension from './src/constants/Dimension';
 const bg = require('./src/assets/images/background.png')
 
 const App: () => React$Node = () => {
+  const animationVal = useRef(new Animated.Value(0)).current  // Initial value for opacity: 0
   const [count, setCount] = useState(0);
   const onIncrease = () => {
     setCount(count + 1)
   }
   const onDecrease = () => {
-    setCount(count - 1)
+    if (count > 0) {
+      setCount(count - 1)
+    }
   }
   const onSwipe = (gestureName, gestureState) => {
     const { SWIPE_UP, SWIPE_DOWN, SWIPE_LEFT, SWIPE_RIGHT } = swipeDirections;
-    switch (gestureName) {
-      case SWIPE_UP:
-        alert('Button Swiped')
-        break;
-      case SWIPE_DOWN:
-        // this.setState({backgroundColor: 'green'});
-        break;
-      case SWIPE_LEFT:
-        // this.setState({backgroundColor: 'blue'});
-        break;
-      case SWIPE_RIGHT:
-        // this.setState({backgroundColor: 'yellow'});
-        break;
+    if (gestureName === SWIPE_UP) {
+      alert('Swiped up successfully.')
     }
   }
+  const anim = () => {
+    Animated.sequence([
+      Animated.timing(animationVal, { toValue: 1, duration: 1000, useNativeDriver: false }),
+      Animated.timing(animationVal, { toValue: 0, duration: 1000, useNativeDriver: false }),
+    ]).start(() => anim());
+  }
+  React.useEffect(() => {
+    anim()
+  }, [])
   return (
     <>
       <StatusBar barStyle="dark-content" />
@@ -64,9 +66,10 @@ const App: () => React$Node = () => {
           />
         </View>
 
-        <Track />
+        <Track animationVal={animationVal} />
         <View style={styles.btnContainer}>
           <SwipeableButton
+            animationVal={animationVal}
             onSwipe={onSwipe}
           />
         </View>
