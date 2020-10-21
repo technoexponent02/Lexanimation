@@ -21,8 +21,8 @@ import colors from './src/constants/colors';
 import Dimension from './src/constants/Dimension';
 const bg = require('./src/assets/images/background.png')
 
-const App: () => React$Node = () => {
-  const animationVal = useRef(new Animated.Value(0)).current  // Initial value for opacity: 0
+const App = () => {
+  const animationVal = useRef(new Animated.Value(0)).current
   const [count, setCount] = useState(0);
   const onIncrease = () => {
     setCount(count + 1)
@@ -38,14 +38,14 @@ const App: () => React$Node = () => {
       alert('Swiped up successfully.')
     }
   }
-  const anim = () => {
+  const animate = () => {
     Animated.sequence([
       Animated.timing(animationVal, { toValue: 1, duration: 1000, useNativeDriver: false }),
       Animated.timing(animationVal, { toValue: 0, duration: 1000, useNativeDriver: false }),
-    ]).start(() => anim());
+    ]).start(() => animate());
   }
   React.useEffect(() => {
-    anim()
+    animate()
   }, [])
   return (
     <>

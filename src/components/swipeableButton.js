@@ -44,7 +44,6 @@ const styles = StyleSheet.create({
         margin: 0,
         borderRadius: 40,
         paddingVertical: 3,
-        // overflow: 'hidden',
         alignItems: 'center',
         alignSelf: 'center',
         flexDirection: 'row',

@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Image, ImageBackground, StyleSheet, Text, View } from 'react-native';
 import colors from '../constants/colors';
 import Dimension from '../constants/Dimension';
 const suitcase = require('../assets/images/trolley.png')
 const bg = require('../assets/images/counter.png')
 export default Counter = props => {
-    const [showBtn, setShowBtn] = useState(true);
     const { onIncrease, onDecrease, count } = props;
     return (
         <ImageBackground
@@ -42,7 +41,6 @@ const styles = StyleSheet.create({
         height: 100,
         width: 100,
     },
-
     terminalTxt: {
         color: colors.colorPrimary
     },

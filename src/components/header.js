@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import colors from '../constants/colors';
 import Dimension from '../constants/Dimension';
 const userImg = require('../assets/images/user.png')
-export default Header = props => {
-    const [showBtn, setShowBtn] = useState(true);
 
+
+export default Header = props => {
     return (
         <TouchableOpacity style={styles.touchable} activeOpacity={1} onPress={props.onClick} >
             <View style={styles.userInfo}>
@@ -34,7 +34,6 @@ const styles = StyleSheet.create({
         margin: 20,
         borderRadius: 40,
         paddingVertical: 3,
-        // overflow: 'hidden',
         alignItems: 'center',
         alignSelf: 'center',
         flexDirection: 'row',
@@ -52,8 +51,6 @@ const styles = StyleSheet.create({
         position: 'absolute',
         top: -5,
         left: -5,
-        // width: 100,
-        // height: 40,
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent:'space-around',
