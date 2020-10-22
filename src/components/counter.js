@@ -40,6 +40,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         height: 100,
         width: 100,
+        marginLeft:Dimension._width100per-130
     },
     terminalTxt: {
         color: colors.colorPrimary
@@ -61,7 +62,6 @@ const styles = StyleSheet.create({
         height: 30,
         width: 30,
         textAlign: 'center'
-
     },
     countView: {
         backgroundColor: colors.colorWhite,

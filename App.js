@@ -10,12 +10,13 @@ import React, { useRef, useState } from 'react';
 import {
   Animated, ImageBackground,
 
+  SafeAreaView,
+
   StatusBar, StyleSheet, View
 } from 'react-native';
-import { swipeDirections } from 'react-native-swipe-gestures';
 import Counter from './src/components/counter';
 import Header from './src/components/header';
-import SwipeableButton from './src/components/swipeableButton';
+import SwipeLabel from './src/components/swipeLabel';
 import Track from './src/components/track';
 import colors from './src/constants/colors';
 import Dimension from './src/constants/Dimension';
@@ -32,16 +33,13 @@ const App = () => {
       setCount(count - 1)
     }
   }
-  const onSwipe = (gestureName, gestureState) => {
-    const { SWIPE_UP, SWIPE_DOWN, SWIPE_LEFT, SWIPE_RIGHT } = swipeDirections;
-    if (gestureName === SWIPE_UP) {
-      alert('Swiped up successfully.')
-    }
+  const onSwipe = () => {
+    alert('Swiped up successfully.')
   }
   const animate = () => {
     Animated.sequence([
-      Animated.timing(animationVal, { toValue: 1, duration: 1000, useNativeDriver: false }),
-      Animated.timing(animationVal, { toValue: 0, duration: 1000, useNativeDriver: false }),
+      Animated.spring(animationVal, { toValue: 1, duration: 2000, useNativeDriver: false }),
+      Animated.spring(animationVal, { toValue: 0, duration: 300, useNativeDriver: false }),
     ]).start(() => animate());
   }
   React.useEffect(() => {
@@ -50,30 +48,29 @@ const App = () => {
   return (
     <>
       <StatusBar barStyle="dark-content" />
-      <ImageBackground
-        source={bg}
-        style={{ flex: 1 }}>
-        <View style={{ marginTop: 50 }}>
-          <Header
-            count={count}
-          />
-        </View>
-        <View style={styles.counterContainer}>
-          <Counter
-            onIncrease={onIncrease}
-            onDecrease={onDecrease}
-            count={count}
-          />
-        </View>
-
-        <Track animationVal={animationVal} />
-        <View style={styles.btnContainer}>
-          <SwipeableButton
-            animationVal={animationVal}
-            onSwipe={onSwipe}
-          />
-        </View>
-      </ImageBackground>
+      <SafeAreaView>
+        <ImageBackground
+          source={bg}
+          style={{ height: Dimension._height100per, justifyContent: 'space-between' }}>
+          <View style={{ height: Dimension._height100per / 2, justifyContent: 'space-around' }}>
+            <Header
+              count={count}
+            />
+            <Counter
+              onIncrease={onIncrease}
+              onDecrease={onDecrease}
+              count={count}
+            />
+          </View>
+          <View style={{ height: Dimension._height100per / 2, justifyContent: 'space-around'}}>
+            <Track onSwipeUp={onSwipe}
+              animationVal={animationVal} />
+            <SwipeLabel
+              animationVal={animationVal}
+            />
+          </View>
+        </ImageBackground>
+      </SafeAreaView>
     </>
   );
 };
@@ -85,15 +82,8 @@ const styles = StyleSheet.create({
   body: {
     backgroundColor: colors.colorAccent,
   },
-
-  btnContainer: {
-    position: 'absolute',
-    left: 0, right: 0,
-    bottom: 20
-  },
   counterContainer: {
-    marginLeft: Dimension._width100per - 120,
-    marginTop: 50
+    marginLeft: Dimension._width50per,
   }
 
 });

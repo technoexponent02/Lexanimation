@@ -1,6 +1,8 @@
 import React from 'react';
 import { Animated, Image, ImageBackground, StyleSheet } from 'react-native';
+import GestureRecognizer from 'react-native-swipe-gestures';
 import Dimension from '../constants/Dimension';
+
 const bg = require('../assets/images/track.png')
 const arrow1 = require('../assets/images/arrow1.png')
 const arrow2 = require('../assets/images/arrow2.png')
@@ -8,66 +10,25 @@ const arrow3 = require('../assets/images/arrow3.png')
 const arrow4 = require('../assets/images/arrow4.png')
 
 
-const FadeInView1 = (props) => {
-    const { animationVal } = props;
-    return (
-        <Animated.View
-            style={{
-                ...props.style,
-                opacity: animationVal.interpolate({
-                    inputRange: [0, 1],
-                    outputRange: [0, 1],
-                }),
-            }}
-        >
-            {props.children}
-        </Animated.View>
-    );
-}
-const FadeInView2 = (props) => {
-    const { animationVal } = props;
-    return (
-        <Animated.View
-            style={{
-                ...props.style,
-                opacity: animationVal.interpolate({
-                    inputRange: [0, 0.7],
-                    outputRange: [0, 1],
-                })
-            }}
-        >
-            {props.children}
-        </Animated.View>
-    );
-}
-const FadeInView3 = (props) => {
-    const { animationVal } = props;
-    return (
-        <Animated.View
-            style={{
-                ...props.style,
-                opacity: animationVal.interpolate({
-                    inputRange: [0, 0.4],
-                    outputRange: [0, 1],
-                })
-            }}
-        >
-            {props.children}
-        </Animated.View>
-    );
-}
-const FadeInView4 = (props) => {
-    const { animationVal } = props;
 
-
+const AnimatedImage = (props) => {
+    const { animationVal, delay } = props;
     return (
         <Animated.View                 // Special animatable View
             style={{
                 ...props.style,
                 opacity: animationVal.interpolate({
-                    inputRange: [0, 0.1],
-                    outputRange: [0, 1],
-                })
+                    inputRange: [0, 0.5, 1],
+                    outputRange: [0.3, delay, 1],
+                }),
+                transform: [
+                    {
+                        scale: animationVal.interpolate({
+                            inputRange: [0, delay],
+                            outputRange: [0.9, 0.95],
+                        }),
+                    }
+                ]
             }}
         >
             {props.children}
@@ -76,49 +37,57 @@ const FadeInView4 = (props) => {
 }
 
 export default Track = props => {
-
-    const { animationVal } = props;
+    const { animationVal, onSwipeUp } = props;
 
     return (
-        <Animated.View style={{
-            opacity: animationVal.interpolate({
-                inputRange: [0, 1],
-                outputRange: [0, 1],
-            })
-        }}>
+        <GestureRecognizer
+            onSwipeUp={onSwipeUp}>
             <ImageBackground
                 source={bg}
-                style={[styles.container, { backfaceVisibility: 'visible' }]}>
-                <FadeInView1 animationVal={animationVal}>
-                    <Image
-                        source={arrow1}
-                        style={styles.img1}
-                        resizeMode={'contain'}
-                    />
-                </FadeInView1>
-                <FadeInView2 animationVal={animationVal}>
-                    <Image
-                        source={arrow2}
-                        style={styles.img2}
-                        resizeMode={'contain'}
-                    />
-                </FadeInView2>
-                <FadeInView3 animationVal={animationVal}>
-                    <Image
-                        source={arrow3}
-                        style={styles.img3}
-                        resizeMode={'contain'}
-                    />
-                </FadeInView3>
-                <FadeInView4 animationVal={animationVal}>
-                    <Image
-                        source={arrow4}
-                        style={styles.img4}
-                        resizeMode={'contain'}
-                    />
-                </FadeInView4>
+                resizeMode={'stretch'}
+                style={styles.container}>
+                <Animated.View style={{
+                    marginBottom: animationVal.interpolate({
+                        inputRange: [0, 1],
+                        outputRange: [20, -20],
+                    }),
+                    marginLeft: animationVal.interpolate({
+                        inputRange: [0, 1],
+                        outputRange: [20, 0],
+                    }),
+                }}>
+                    <AnimatedImage delay={1} animationVal={animationVal}>
+                        <Image
+                            source={arrow1}
+                            style={styles.img1}
+                            resizeMode={'contain'}
+                        />
+                    </AnimatedImage>
+                    <AnimatedImage delay={0.75} animationVal={animationVal}>
+                        <Image
+                            source={arrow2}
+                            style={styles.img2}
+                            resizeMode={'contain'}
+                        />
+                    </AnimatedImage>
+                    <AnimatedImage delay={0.5} animationVal={animationVal}>
+                        <Image
+                            source={arrow3}
+                            style={styles.img3}
+                            resizeMode={'contain'}
+                        />
+                    </AnimatedImage>
+                    <AnimatedImage delay={0.25} animationVal={animationVal}>
+                        <Image
+                            source={arrow4}
+                            style={styles.img4}
+                            resizeMode={'contain'}
+                        />
+                    </AnimatedImage>
+                </Animated.View>
             </ImageBackground>
-        </Animated.View>
+        </GestureRecognizer>
+
 
     );
 
@@ -126,33 +95,29 @@ export default Track = props => {
 const styles = StyleSheet.create({
 
     container: {
-        width: Dimension._width60per,
-        height: Dimension._width60per,
-        position: 'absolute',
-        bottom: -Dimension._width60per,
-        left: '25%',
-        right: 0,
+        width: Dimension._width100per,
+        height: Dimension._height100per / 2,
+        justifyContent: 'center'
     },
     img1: {
-        height: 20,
-        width: 40,
-        marginLeft: 150,
-        marginTop: 30
+        width: Dimension._width100per,
+        height: Dimension._width10per,
+        marginLeft: Dimension._width30per / 2,
+        marginTop: Dimension._width10per
     },
     img2: {
-        height: 30,
-        width: 40,
-        marginLeft: 130,
+        width: Dimension._width100per,
+        height: Dimension._width10per,
+        marginLeft: Dimension._width10per
     },
     img3: {
-        height: 40,
-        width: 60,
-        marginLeft: 90,
+        width: Dimension._width100per,
+        height: Dimension._width10per,
+        marginLeft: Dimension._width10per / 2
     },
     img4: {
-        height: 50,
-        width: 100,
-        marginLeft: 40,
+        height: Dimension._width30per / 2,
+        width: Dimension._width100per,
     },
     imgBackground: {
         width: Dimension._width60per,
