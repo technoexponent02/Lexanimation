@@ -9,9 +9,7 @@
 import React, { useRef, useState } from 'react';
 import {
   Animated, ImageBackground,
-
   SafeAreaView,
-
   StatusBar, StyleSheet, View
 } from 'react-native';
 import Counter from './src/components/counter';
